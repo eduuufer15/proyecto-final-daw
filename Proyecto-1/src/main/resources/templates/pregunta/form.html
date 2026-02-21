@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title th:text="${titulo}">Formulario Pregunta</title>
+<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+<link rel="stylesheet" th:href="@{/css/custom.css}">
+</head>
+<body>
+
+    <header th:replace="~{layout/base :: header-comun}"></header>
+
+    <div class="container mt-5">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h3 th:text="${cabecera}">Formulario de Pregunta</h3>
+            </div>
+            <div class="card-body">
+
+                <form th:action="@{/preguntas/guardar}" method="post" id="formPregunta">
+
+                    <!-- TIPO DE PREGUNTA -->
+                    <div class="mb-3">
+                        <label class="form-label"><strong>Tipo de Pregunta</strong></label>
+                        <select class="form-select" id="tipo" name="tipo" onchange="mostrarSeccion()">
+                            <option value="" disabled selected>Selecciona el tipo...</option>
+                            <option value="verdadero_falso">✅ Verdadero / Falso</option>
+                            <option value="seleccion_unica">🔘 Selección Única</option>
+                            <option value="seleccion_multiple">☑️ Selección Múltiple</option>
+                        </select>
+                    </div>
+
+                    <!-- TEXTO DE LA PREGUNTA -->
+                    <div class="mb-3">
+                        <label class="form-label"><strong>Texto de la Pregunta</strong></label>
+                        <textarea class="form-control" name="textoPregunta" rows="3"
+                                  placeholder="Escribe aquí la pregunta..." required></textarea>
+                    </div>
+					<!-- CATEGORÍA -->
+                    <div class="mb-3">
+                        <label class="form-label"><strong>Categoría</strong></label>
+                        <select class="form-select" name="categoriaId">
+                            <option value="">-- Sin Categoría --</option>
+                            <option th:each="cat : ${categorias}"
+                                    th:value="${cat.id}"
+                                    th:text="${cat.nombre}">
+                            </option>
+                        </select>
+                    </div>
+                    <!-- ======================== -->
+                    <!-- SECCIÓN VERDADERO/FALSO  -->
+                    <!-- ======================== -->
+                    <div id="seccionVF" style="display:none;" class="mb-3 p-3 border rounded bg-light">
+                        <label class="form-label"><strong>Respuesta Correcta</strong></label>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio"
+                                   name="respuestaCorrecta" value="true" id="opcionVerdadero">
+                            <label class="form-check-label" for="opcionVerdadero">✅ Verdadero</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio"
+                                   name="respuestaCorrecta" value="false" id="opcionFalso" checked>
+                            <label class="form-check-label" for="opcionFalso">❌ Falso</label>
+                        </div>
+                    </div>
+
+                    <!-- ======================== -->
+                    <!-- SECCIÓN SELECCIÓN ÚNICA  -->
+                    <!-- ======================== -->
+                    <div id="seccionSU" style="display:none;" class="mb-3 p-3 border rounded bg-light">
+                        <label class="form-label">
+                            <strong>🔘 Opciones de Respuesta</strong>
+                            <small class="text-muted">(marca la opción correcta)</small>
+                        </label>
+
+                        <div id="opcionesSU">
+                            <!-- Opciones generadas por JavaScript -->
+                        </div>
+
+                        <button type="button" class="btn btn-outline-primary btn-sm mt-2"
+                                onclick="agregarOpcionSU()">
+                            ➕ Añadir Opción
+                        </button>
+                        <small class="d-block text-muted mt-1">Mínimo 2 opciones. Solo una puede ser correcta.</small>
+                    </div>
+
+                    <!-- ========================== -->
+                    <!-- SECCIÓN SELECCIÓN MÚLTIPLE -->
+                    <!-- ========================== -->
+                    <div id="seccionSM" style="display:none;" class="mb-3 p-3 border rounded bg-light">
+                        <label class="form-label">
+                            <strong>☑️ Opciones de Respuesta</strong>
+                            <small class="text-muted">(marca todas las correctas)</small>
+                        </label>
+
+                        <div id="opcionesSM">
+                            <!-- Opciones generadas por JavaScript -->
+                        </div>
+
+                        <button type="button" class="btn btn-outline-primary btn-sm mt-2"
+                                onclick="agregarOpcionSM()">
+                            ➕ Añadir Opción
+                        </button>
+                        <small class="d-block text-muted mt-1">Mínimo 2 opciones. Puede haber varias correctas.</small>
+                    </div>
+
+                    <!-- BOTONES -->
+                    <div class="d-flex gap-2 mt-4">
+                        <button type="submit" class="btn btn-success btn-lg">💾 Guardar Pregunta</button>
+                        <a th:href="@{/preguntas/todas}" class="btn btn-secondary btn-lg">⬅️ Cancelar</a>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <footer th:replace="~{layout/base :: footer-comun}"></footer>
+
+    <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+    <script th:src="@{/js/custom.js}"></script>
+
+    <script>
+        // Contadores para IDs únicos
+        let contadorSU = 0;
+        let contadorSM = 0;
+
+        // Muestra la sección correcta según el tipo elegido
+        function mostrarSeccion() {
+            const tipo = document.getElementById('tipo').value;
+
+            document.getElementById('seccionVF').style.display = 'none';
+            document.getElementById('seccionSU').style.display = 'none';
+            document.getElementById('seccionSM').style.display = 'none';
+
+            if (tipo === 'verdadero_falso') {
+                document.getElementById('seccionVF').style.display = 'block';
+            } else if (tipo === 'seleccion_unica') {
+                document.getElementById('seccionSU').style.display = 'block';
+                // Añadir 2 opciones por defecto si está vacío
+                if (contadorSU === 0) {
+                    agregarOpcionSU();
+                    agregarOpcionSU();
+                }
+            } else if (tipo === 'seleccion_multiple') {
+                document.getElementById('seccionSM').style.display = 'block';
+                // Añadir 2 opciones por defecto si está vacío
+                if (contadorSM === 0) {
+                    agregarOpcionSM();
+                    agregarOpcionSM();
+                }
+            }
+        }
+
+        // Añadir opción para Selección Única (radio button)
+        function agregarOpcionSU() {
+            contadorSU++;
+            const contenedor = document.getElementById('opcionesSU');
+            const div = document.createElement('div');
+            div.className = 'input-group mb-2';
+            div.id = 'opcionSU_' + contadorSU;
+            div.innerHTML = `
+                <div class="input-group-text">
+                    <input type="radio" name="opcionCorrectaSU" value="${contadorSU}"
+                           title="Marcar como correcta">
+                </div>
+                <input type="text" class="form-control"
+                       name="textoOpcionSU"
+                       placeholder="Escribe la opción ${contadorSU}...">
+                <button type="button" class="btn btn-outline-danger"
+                        onclick="eliminarOpcion('opcionSU_${contadorSU}')">🗑️</button>
+            `;
+            contenedor.appendChild(div);
+        }
+
+        // Añadir opción para Selección Múltiple (checkbox)
+        function agregarOpcionSM() {
+            contadorSM++;
+            const contenedor = document.getElementById('opcionesSM');
+            const div = document.createElement('div');
+            div.className = 'input-group mb-2';
+            div.id = 'opcionSM_' + contadorSM;
+            div.innerHTML = `
+                <div class="input-group-text">
+                    <input type="checkbox" name="opcionCorrectaSM" value="${contadorSM}"
+                           title="Marcar como correcta">
+                </div>
+                <input type="text" class="form-control"
+                       name="textoOpcionSM"
+                       placeholder="Escribe la opción ${contadorSM}...">
+                <button type="button" class="btn btn-outline-danger"
+                        onclick="eliminarOpcion('opcionSM_${contadorSM}')">🗑️</button>
+            `;
+            contenedor.appendChild(div);
+        }
+
+        // Eliminar una opción
+        function eliminarOpcion(id) {
+            const elem = document.getElementById(id);
+            if (elem) elem.remove();
+        }
+    </script>
+
+</body>
+</html>

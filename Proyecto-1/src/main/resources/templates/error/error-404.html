@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 - Página No Encontrada | Quiz App</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <style>
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        .error-container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            padding: 60px 40px;
+            max-width: 600px;
+            text-align: center;
+            animation: fadeIn 0.5s ease-in;
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .error-code {
+            font-size: 120px;
+            font-weight: 900;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin: 0;
+            line-height: 1;
+        }
+        
+        .error-title {
+            font-size: 32px;
+            font-weight: bold;
+            color: #333;
+            margin: 20px 0;
+        }
+        
+        .error-description {
+            font-size: 18px;
+            color: #666;
+            margin: 20px 0 30px 0;
+            line-height: 1.6;
+        }
+        
+        .error-icon {
+            font-size: 100px;
+            margin-bottom: 20px;
+        }
+        
+        .btn-home {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            color: white;
+            font-weight: bold;
+            padding: 15px 40px;
+            font-size: 18px;
+            border-radius: 50px;
+            transition: transform 0.3s, box-shadow 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .btn-home:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+            color: white;
+        }
+        
+        .error-details {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 30px;
+            font-size: 14px;
+            color: #666;
+        }
+        
+        .suggestions {
+            text-align: left;
+            margin: 30px 0;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+        }
+        
+        .suggestions h4 {
+            color: #667eea;
+            margin-bottom: 15px;
+        }
+        
+        .suggestions ul {
+            margin: 0;
+            padding-left: 20px;
+        }
+        
+        .suggestions li {
+            margin: 8px 0;
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="error-container">
+        <div class="error-icon">🔍</div>
+        <h1 class="error-code" th:text="${errorCode}">404</h1>
+        <h2 class="error-title" th:text="${errorTitle}">Página No Encontrada</h2>
+        <p class="error-description" th:text="${errorDescription}">
+            Lo sentimos, la página que estás buscando no existe o ha sido movida.
+        </p>
+        
+        <div class="suggestions">
+            <h4>💡 ¿Qué puedes hacer?</h4>
+            <ul>
+                <li>Verificar que la URL esté escrita correctamente</li>
+                <li>Volver a la página principal y navegar desde allí</li>
+                <li>Usar el menú de navegación para encontrar lo que buscas</li>
+                <li>Contactar con el administrador si crees que esto es un error</li>
+            </ul>
+        </div>
+        
+        <a th:href="@{/}" class="btn-home">🏠 Volver al Inicio</a>
+        
+        <div class="error-details" th:if="${path}">
+            <strong>Ruta solicitada:</strong> <span th:text="${path}"></span><br>
+            <strong>Fecha:</strong> <span th:text="${#dates.format(timestamp, 'dd/MM/yyyy HH:mm:ss')}"></span>
+        </div>
+    </div>
+
+    <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+</body>
+</html>

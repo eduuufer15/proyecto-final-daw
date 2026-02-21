@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>500 - Error del Servidor | Quiz App</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <style>
+        body {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        .error-container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            padding: 60px 40px;
+            max-width: 650px;
+            text-align: center;
+            animation: fadeIn 0.5s ease-in;
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .error-code {
+            font-size: 120px;
+            font-weight: 900;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin: 0;
+            line-height: 1;
+        }
+        
+        .error-title {
+            font-size: 32px;
+            font-weight: bold;
+            color: #333;
+            margin: 20px 0;
+        }
+        
+        .error-description {
+            font-size: 18px;
+            color: #666;
+            margin: 20px 0 30px 0;
+            line-height: 1.6;
+        }
+        
+        .error-icon {
+            font-size: 100px;
+            margin-bottom: 20px;
+            animation: shake 0.5s ease-in-out;
+        }
+        
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
+        }
+        
+        .btn-home {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            border: none;
+            color: white;
+            font-weight: bold;
+            padding: 15px 40px;
+            font-size: 18px;
+            border-radius: 50px;
+            transition: transform 0.3s, box-shadow 0.3s;
+            text-decoration: none;
+            display: inline-block;
+            margin: 10px;
+        }
+        
+        .btn-home:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(245, 87, 108, 0.4);
+            color: white;
+        }
+        
+        .btn-secondary {
+            background: #6c757d;
+            border: none;
+            color: white;
+            font-weight: bold;
+            padding: 15px 40px;
+            font-size: 18px;
+            border-radius: 50px;
+            transition: transform 0.3s, box-shadow 0.3s;
+            text-decoration: none;
+            display: inline-block;
+            margin: 10px;
+        }
+        
+        .btn-secondary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(108, 117, 125, 0.4);
+            color: white;
+            background: #5a6268;
+        }
+        
+        .error-details {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            border-radius: 5px;
+            padding: 15px;
+            margin-top: 30px;
+            text-align: left;
+            font-size: 14px;
+            color: #856404;
+        }
+        
+        .error-details strong {
+            color: #664d03;
+        }
+        
+        .suggestions {
+            text-align: left;
+            margin: 30px 0;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+        }
+        
+        .suggestions h4 {
+            color: #f5576c;
+            margin-bottom: 15px;
+        }
+        
+        .suggestions ul {
+            margin: 0;
+            padding-left: 20px;
+        }
+        
+        .suggestions li {
+            margin: 8px 0;
+            color: #555;
+        }
+        
+        .exception-details {
+            background: #f8d7da;
+            border-left: 4px solid #dc3545;
+            border-radius: 5px;
+            padding: 15px;
+            margin-top: 20px;
+            text-align: left;
+            font-size: 13px;
+            color: #721c24;
+            font-family: 'Courier New', monospace;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="error-container">
+        <div class="error-icon">⚠️</div>
+        <h1 class="error-code" th:text="${errorCode}">500</h1>
+        <h2 class="error-title" th:text="${errorTitle}">Error Interno del Servidor</h2>
+        <p class="error-description" th:text="${errorDescription}">
+            Ha ocurrido un error inesperado. Nuestro equipo ha sido notificado y estamos trabajando en solucionarlo.
+        </p>
+        
+        <div class="suggestions">
+            <h4>🔧 ¿Qué ha pasado?</h4>
+            <p>El servidor ha encontrado un error inesperado al procesar tu solicitud.</p>
+            <h4 style="margin-top: 20px;">💡 ¿Qué puedes hacer?</h4>
+            <ul>
+                <li>Recargar la página (a veces los errores son temporales)</li>
+                <li>Volver a la página principal e intentarlo de nuevo</li>
+                <li>Esperar unos minutos y volver a intentarlo</li>
+                <li>Contactar con el administrador si el problema persiste</li>
+            </ul>
+        </div>
+        
+        <div>
+            <a th:href="@{/}" class="btn-home">🏠 Volver al Inicio</a>
+            <a href="javascript:history.back()" class="btn-secondary">⬅️ Página Anterior</a>
+        </div>
+        
+        <div class="error-details" th:if="${path}">
+            <strong>📍 Ruta solicitada:</strong> <span th:text="${path}"></span><br>
+            <strong>🕐 Fecha y hora:</strong> <span th:text="${#dates.format(timestamp, 'dd/MM/yyyy HH:mm:ss')}"></span><br>
+            <strong>💬 Mensaje:</strong> <span th:text="${errorMessage}"></span>
+        </div>
+        
+        <!-- Detalles técnicos de la excepción (solo para desarrollo) -->
+        <div class="exception-details" th:if="${exceptionType}">
+            <strong>🐛 Detalles técnicos (solo visible en desarrollo):</strong><br>
+            <strong>Tipo:</strong> <span th:text="${exceptionType}"></span><br>
+            <strong>Mensaje:</strong> <span th:text="${exceptionMessage}"></span>
+        </div>
+    </div>
+
+    <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+</body>
+</html>

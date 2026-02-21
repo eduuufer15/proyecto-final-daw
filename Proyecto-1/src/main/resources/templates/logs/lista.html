@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+<meta charset="UTF-8">
+<title th:text="${titulo}">Logs de Actividad</title>
+<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+</head>
+<body>
+
+    <header th:replace="~{layout/base :: header-comun}"></header>
+
+    <div class="container mt-4">
+
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h1 th:text="${cabecera}">Historial de Actividad</h1>
+            <span class="badge bg-secondary fs-6">MongoDB 🍃</span>
+        </div>
+
+        <!-- Sin logs -->
+        <div class="alert alert-info" th:if="${logs == null || logs.empty}">
+            📭 No hay actividad registrada aún. Crea, edita o borra una pregunta para ver los logs.
+        </div>
+
+        <!-- Tabla de logs -->
+        <table class="table table-striped table-bordered"
+               th:if="${logs != null && !logs.empty}">
+            <thead class="table-dark">
+                <tr>
+                    <th>Fecha</th>
+                    <th>Acción</th>
+                    <th>Tipo</th>
+                    <th>ID Pregunta</th>
+                    <th>Texto</th>
+                    <th>Usuario</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="log : ${logs}">
+
+                    <!-- Fecha -->
+                    <td th:text="${#dates.format(log.fecha, 'dd/MM/yyyy HH:mm:ss')}"></td>
+
+                    <!-- Badge acción con color -->
+                    <td>
+                        <span th:if="${log.accion == 'CREAR'}"        class="badge bg-success">➕ CREAR</span>
+                        <span th:if="${log.accion == 'EDITAR'}"       class="badge bg-warning text-dark">✏️ EDITAR</span>
+                        <span th:if="${log.accion == 'BORRAR'}"       class="badge bg-danger">🗑️ BORRAR</span>
+                        <span th:if="${log.accion == 'IMPORTAR_CSV'}" class="badge bg-info">📂 CSV</span>
+                    </td>
+
+                    <!-- Tipo pregunta -->
+                    <td>
+                        <span th:if="${log.tipoPregunta == 'verdadero_falso'}"   class="badge bg-success">✅ V/F</span>
+                        <span th:if="${log.tipoPregunta == 'seleccion_unica'}"   class="badge bg-primary">🔘 S.Única</span>
+                        <span th:if="${log.tipoPregunta == 'seleccion_multiple'}" class="badge bg-info">☑️ S.Múltiple</span>
+                        <span th:if="${log.tipoPregunta == 'varios'}"            class="badge bg-secondary">📋 Varios</span>
+                    </td>
+
+                    <!-- ID -->
+                    <td th:text="${log.idPregunta != null ? log.idPregunta : '-'}"></td>
+
+                    <!-- Texto pregunta (truncado) -->
+                    <td th:text="${#strings.abbreviate(log.textoPregunta, 50)}"></td>
+
+                    <!-- Usuario -->
+                    <td>
+                        <span class="badge bg-dark" th:text="${log.usuario}"></span>
+                    </td>
+
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="mt-3">
+            <a th:href="@{/}" class="btn btn-secondary">⬅️ Volver al Inicio</a>
+            <span class="text-muted ms-3">
+                Total: <strong th:text="${logs != null ? logs.size() : 0}"></strong> registros en MongoDB
+            </span>
+        </div>
+
+    </div>
+
+    <footer th:replace="~{layout/base :: footer-comun}"></footer>
+    <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+    <script th:src="@{/js/custom.js}"></script>
+
+</body>
+</html>

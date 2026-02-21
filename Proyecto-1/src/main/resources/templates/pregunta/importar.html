@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${titulo}">Importar CSV</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+</head>
+<body>
+
+    <header th:replace="~{layout/base :: header-comun}"></header>
+
+    <div class="container mt-5">
+        <div class="card">
+            <div class="card-header bg-success text-white">
+                <h3>📂 Importar Preguntas desde CSV</h3>
+            </div>
+            <div class="card-body">
+
+                <!-- Mensajes flash -->
+                <div th:if="${success}" class="alert alert-success" th:text="${success}"></div>
+                <div th:if="${warning}" class="alert alert-warning" th:text="${warning}"></div>
+                <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
+
+                <!-- Formulario de subida -->
+                <form action="/preguntas/importar" method="post" enctype="multipart/form-data">
+                    <div class="mb-4">
+                        <label for="archivo" class="form-label">
+                            <strong>Selecciona tu archivo CSV:</strong>
+                        </label>
+                        <input type="file" 
+                               class="form-control" 
+                               id="archivo" 
+                               name="archivo" 
+                               accept=".csv"
+                               required>
+                        <small class="text-muted">Solo se aceptan archivos .csv (máximo 10MB)</small>
+                    </div>
+
+                    <div class="d-flex gap-2">
+                        <button type="submit" class="btn btn-success btn-lg">
+                            📤 Importar Preguntas
+                        </button>
+                        <a th:href="@{/preguntas/todas}" class="btn btn-secondary btn-lg">
+                            ⬅️ Cancelar
+                        </a>
+                    </div>
+                </form>
+
+                <hr class="my-4">
+
+                <!-- Instrucciones del formato -->
+                <div class="card bg-light">
+                    <div class="card-body">
+                        <h5>📋 Formato del archivo CSV</h5>
+                        <p>El archivo CSV debe tener el siguiente formato:</p>
+
+                        <div class="bg-dark text-light p-3 rounded mb-3">
+                            <code>
+                                tipo,texto_pregunta,respuesta_correcta<br>
+                                verdadero_falso,¿Java es orientado a objetos?,true<br>
+                                verdadero_falso,¿Python es un lenguaje compilado?,false<br>
+                                seleccion_unica,¿Cuál es la capital de España?,<br>
+                                seleccion_multiple,¿Cuáles son lenguajes de programación?,
+                            </code>
+                        </div>
+
+                        <h6>📌 Tipos de pregunta aceptados:</h6>
+                        <ul>
+                            <li><span class="badge bg-success">verdadero_falso</span> o <span class="badge bg-secondary">vf</span> — Pregunta de Verdadero/Falso</li>
+                            <li><span class="badge bg-primary">seleccion_unica</span> o <span class="badge bg-secondary">su</span> — Pregunta de Selección Única</li>
+                            <li><span class="badge bg-info">seleccion_multiple</span> o <span class="badge bg-secondary">sm</span> — Pregunta de Selección Múltiple</li>
+                        </ul>
+
+                        <h6>📌 Columna respuesta_correcta (solo para V/F):</h6>
+                        <ul>
+                            <li><strong>Verdadero:</strong> true, verdadero, si, sí, 1</li>
+                            <li><strong>Falso:</strong> false, falso, no, 0 (o dejar vacío)</li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <footer th:replace="~{layout/base :: footer-comun}"></footer>
+
+    <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+    <script th:src="@{/js/custom.js}"></script>
+
+</body>
+</html>

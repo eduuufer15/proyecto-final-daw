@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title th:text="${titulo}">Formulario Categoría</title>
+<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+</head>
+<body>
+
+    <header th:replace="~{layout/base :: header-comun}"></header>
+
+    <div class="container mt-5">
+        <div class="card" style="max-width: 500px; margin: auto;">
+            <div class="card-header bg-primary text-white">
+                <h4 th:text="${cabecera}">Formulario Categoría</h4>
+            </div>
+            <div class="card-body">
+
+                <!-- Mensajes -->
+                <div class="alert alert-danger" th:if="${error}" th:text="${error}"></div>
+
+                <form th:action="@{/categorias/guardar}" method="post">
+
+                    <!-- ID oculto para edición -->
+                    <input type="hidden" name="id" th:value="${categoria.id}">
+
+                    <!-- Nombre -->
+                    <div class="mb-3">
+                        <label class="form-label"><strong>Nombre de la Categoría</strong></label>
+                        <input type="text"
+                               class="form-control"
+                               name="nombre"
+                               th:value="${categoria.nombre}"
+                               placeholder="Ej: Matemáticas, Ciencias, Historia..."
+                               required
+                               autofocus>
+                        <small class="text-muted">El nombre debe ser único y descriptivo</small>
+                    </div>
+
+                    <!-- Botones -->
+                    <div class="d-flex gap-2">
+                        <button type="submit" class="btn btn-success">
+                            💾 Guardar
+                        </button>
+                        <a th:href="@{/categorias/todas}" class="btn btn-secondary">
+                            ⬅️ Cancelar
+                        </a>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <footer th:replace="~{layout/base :: footer-comun}"></footer>
+    <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+    <script th:src="@{/js/custom.js}"></script>
+</body>
+</html>

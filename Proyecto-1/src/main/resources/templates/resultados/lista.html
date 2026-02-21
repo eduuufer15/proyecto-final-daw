@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+<meta charset="UTF-8">
+<title th:text="${titulo}">Resultados Tests</title>
+<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+</head>
+<body>
+
+    <header th:replace="~{layout/base :: header-comun}"></header>
+
+    <div class="container mt-4">
+        <h1 th:text="${cabecera}">Resultados de Tests</h1>
+
+        <!-- Tabla con resultados -->
+        <div class="card">
+            <div class="card-body">
+                <table class="table table-striped table-hover">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>ID</th>
+                            <th>Usuario</th>
+                            <th>Fecha</th>
+                            <th>Preguntas</th>
+                            <th>Correctas</th>
+                            <th>Incorrectas</th>
+                            <th>% Acierto</th>
+                            <th>Nota</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:if="${resultados == null || resultados.isEmpty()}">
+                            <td colspan="8" class="text-center text-muted">
+                                ℹ️ No hay resultados aún. Cuando los usuarios completen tests desde React Native, aparecerán aquí.
+                            </td>
+                        </tr>
+                        <tr th:each="r : ${resultados}">
+                            <td th:text="${r.id}">1</td>
+                            <td><strong th:text="${r.usuarioNombre}">Usuario</strong></td>
+                            <td th:text="${#dates.format(r.fecha, 'dd/MM/yyyy HH:mm')}">Fecha</td>
+                            <td th:text="${r.totalPreguntas}">10</td>
+                            <td class="text-success"><strong th:text="${r.correctas}">8</strong></td>
+                            <td class="text-danger"><strong th:text="${r.incorrectas}">2</strong></td>
+                            <td>
+                                <span class="badge bg-info" th:text="${r.porcentaje + '%'}">80%</span>
+                            </td>
+                            <td>
+                                <span th:class="${r.nota >= 5 ? 'badge bg-success' : 'badge bg-danger'}"
+                                      th:text="${r.nota}">8.0</span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="alert alert-info mt-3">
+            <h5>ℹ️ ¿Cómo funciona?</h5>
+            <p class="mb-0">Cuando un usuario complete un test desde React Native, el resultado se enviará a <code>POST /api/resultados</code> y aparecerá automáticamente en esta tabla.</p>
+        </div>
+
+        <a th:href="@{/}" class="btn btn-secondary mt-3">⬅️ Volver al Inicio</a>
+    </div>
+
+    <footer th:replace="~{layout/base :: footer-comun}"></footer>
+    <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+
+</body>
+</html>

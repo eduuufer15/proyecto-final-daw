@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+<meta charset="UTF-8">
+<title th:text="${titulo}">Noticias</title>
+<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+</head>
+<body>
+
+    <header th:replace="~{layout/base :: header-comun}"></header>
+
+    <div class="container mt-4">
+        <h1 th:text="${cabecera}">Noticias Tecnológicas</h1>
+        <p class="text-muted">Fuente: NewsAPI.org</p>
+
+        <!-- Error -->
+        <div class="alert alert-danger" th:if="${error}" th:text="${error}"></div>
+
+        <!-- Noticias -->
+        <div class="row" th:if="${noticias != null}">
+            <div class="col-md-6 mb-4" th:each="noticia : ${noticias}">
+                <div class="card h-100">
+                    <img th:if="${noticia.urlToImage != null}" 
+                         th:src="${noticia.urlToImage}" 
+                         class="card-img-top" 
+                         alt="Imagen noticia"
+                         style="height: 200px; object-fit: cover;">
+                    <div class="card-body">
+                        <h5 class="card-title" th:text="${noticia.title}">Título</h5>
+                        <p class="card-text" th:text="${noticia.description}">Descripción</p>
+                        <p class="text-muted small">
+                            <strong th:text="${noticia.source.name}">Fuente</strong> · 
+                            <span th:text="${noticia.publishedAt}">Fecha</span>
+                        </p>
+                        <a th:href="${noticia.url}" target="_blank" class="btn btn-primary btn-sm">
+                            Leer más →
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <a th:href="@{/}" class="btn btn-secondary mt-3">⬅️ Volver al Inicio</a>
+    </div>
+
+    <footer th:replace="~{layout/base :: footer-comun}"></footer>
+    <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+
+</body>
+</html>

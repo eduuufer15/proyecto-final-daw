@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+<meta charset="UTF-8">
+<title th:text="${titulo}">Listado de Preguntas</title>
+<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+</head>
+<body>
+
+    <div class="alert alert-warning container mt-2" th:if="${warning != null}" th:text="${warning}"></div>
+    <div class="alert alert-success container mt-2" th:if="${success != null}" th:text="${success}"></div>
+
+    <header th:replace="~{layout/base :: header-comun}"></header>
+
+    <div class="container mt-4">
+
+        <!-- Cabecera -->
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h1 th:text="${cabecera}">Listado de Preguntas</h1>
+            <div sec:authorize="hasRole('ADMIN')">
+                <a th:href="@{/preguntas/form}" class="btn btn-primary me-2">➕ Nueva Pregunta</a>
+                <a th:href="@{/preguntas/importar}" class="btn btn-success">📂 Importar CSV</a>
+            </div>
+        </div>
+
+        <!-- Barra de búsqueda -->
+        <div class="row mb-3">
+            <div class="col-md-12">
+                <form method="get" th:action="@{/preguntas/todas}" class="d-flex">
+                    <input type="text" name="buscar" class="form-control me-2"
+                           placeholder="Buscar por texto de pregunta..."
+                           th:value="${buscar}">
+                    <button type="submit" class="btn btn-outline-primary me-2">🔍 Buscar</button>
+                    <a th:href="@{/preguntas/todas}" class="btn btn-outline-secondary">🔄 Limpiar</a>
+                </form>
+            </div>
+        </div>
+
+        <!-- Info paginación -->
+        <div class="alert alert-info" th:if="${totalElementos != null}">
+            📊 Mostrando <strong th:text="${preguntas.size()}">0</strong>
+            de <strong th:text="${totalElementos}">0</strong> preguntas totales
+            <span th:if="${buscar != null}">
+                — Buscando: "<strong th:text="${buscar}"></strong>"
+            </span>
+        </div>
+
+        <!-- Sin preguntas -->
+        <p th:if="${preguntas == null || preguntas.size() == 0}" class="alert alert-warning">
+            ⚠️ No hay preguntas que mostrar
+        </p>
+
+        <!-- Tabla -->
+        <table class="table table-striped table-bordered"
+               th:if="${!(preguntas == null || preguntas.size() == 0)}">
+            <thead class="table-dark">
+                <tr>
+                    <th>ID</th>
+                    <th>TEXTO PREGUNTA</th>
+                    <th>CATEGORÍA</th>
+                    <th>TIPO</th>
+                    <th>ACCIONES</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="pregunta : ${preguntas}">
+                    <td th:text="${pregunta.id}"></td>
+                    <td th:text="${pregunta.textoPregunta}"></td>
+                    <td th:text="${pregunta.categoria != null ? pregunta.categoria.nombre : 'Sin categoría'}"></td>
+
+                    <!-- Badge usando getTipo() del modelo -->
+                    <td>
+                        <!-- Para V/F mostrar el valor real: Verdadero o Falso -->
+                        <span th:if="${pregunta.tipo == 'verdadero_falso' && pregunta.respuestaCorrecta == true}"
+                              class="badge bg-success">✅ Verdadero</span>
+                        <span th:if="${pregunta.tipo == 'verdadero_falso' && pregunta.respuestaCorrecta == false}"
+                              class="badge bg-danger">❌ Falso</span>
+                        
+                        <span th:if="${pregunta.tipo == 'seleccion_unica'}"
+                              class="badge bg-primary">🔘 Selección Única</span>
+                        <span th:if="${pregunta.tipo == 'seleccion_multiple'}"
+                              class="badge bg-info">☑️ Selección Múltiple</span>
+                    </td>
+
+                    <!-- Acciones ADMIN -->
+                    <td sec:authorize="hasRole('ADMIN')">
+                        <a th:href="@{'/preguntas/ver/' + ${pregunta.id}}" class="btn btn-info btn-sm">👁️ Ver</a>
+                        <a th:href="@{'/preguntas/editar/' + ${pregunta.id}}" class="btn btn-warning btn-sm">✏️ Editar</a>
+                        <a th:href="@{'/preguntas/borrar/' + ${pregunta.id}}" class="btn btn-danger btn-sm"
+                           onclick="return confirm('¿Estás seguro de borrar esta pregunta?');">🗑️ Borrar</a>
+                    </td>
+
+                    <!-- Acciones USER -->
+                    <td sec:authorize="hasRole('USER')">
+                        <a th:href="@{'/preguntas/ver/' + ${pregunta.id}}" class="btn btn-info btn-sm">👁️ Ver</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- Paginación -->
+        <nav th:if="${totalPaginas > 1}" aria-label="Paginación">
+            <ul class="pagination justify-content-center">
+                <li class="page-item" th:classappend="${!hayAnterior} ? 'disabled'">
+                    <a class="page-link" th:href="@{/preguntas/todas(page=0, size=${tamanioPagina}, buscar=${buscar})}">⏮️ Primera</a>
+                </li>
+                <li class="page-item" th:classappend="${!hayAnterior} ? 'disabled'">
+                    <a class="page-link" th:href="@{/preguntas/todas(page=${paginaActual - 1}, size=${tamanioPagina}, buscar=${buscar})}">◀️ Anterior</a>
+                </li>
+                <li class="page-item"
+                    th:each="i : ${#numbers.sequence(0, totalPaginas - 1)}"
+                    th:if="${i >= paginaActual - 2 && i <= paginaActual + 2}"
+                    th:classappend="${i == paginaActual} ? 'active'">
+                    <a class="page-link"
+                       th:href="@{/preguntas/todas(page=${i}, size=${tamanioPagina}, buscar=${buscar})}"
+                       th:text="${i + 1}">1</a>
+                </li>
+                <li class="page-item" th:classappend="${!haySiguiente} ? 'disabled'">
+                    <a class="page-link" th:href="@{/preguntas/todas(page=${paginaActual + 1}, size=${tamanioPagina}, buscar=${buscar})}">Siguiente ▶️</a>
+                </li>
+                <li class="page-item" th:classappend="${!haySiguiente} ? 'disabled'">
+                    <a class="page-link" th:href="@{/preguntas/todas(page=${totalPaginas - 1}, size=${tamanioPagina}, buscar=${buscar})}">Última ⏭️</a>
+                </li>
+            </ul>
+        </nav>
+
+        <!-- Selector tamaño página -->
+        <div class="row mt-3" th:if="${totalElementos > 5}">
+            <div class="col-md-12 text-center">
+                <form method="get" th:action="@{/preguntas/todas}" class="d-inline">
+                    <input type="hidden" name="buscar" th:value="${buscar}">
+                    <label>Mostrar por página:</label>
+                    <select name="size" class="form-select d-inline w-auto" onchange="this.form.submit()">
+                        <option value="5"  th:selected="${tamanioPagina == 5}">5</option>
+                        <option value="10" th:selected="${tamanioPagina == 10}">10</option>
+                        <option value="20" th:selected="${tamanioPagina == 20}">20</option>
+                        <option value="50" th:selected="${tamanioPagina == 50}">50</option>
+                    </select>
+                </form>
+            </div>
+        </div>
+
+        <a th:href="@{/}" class="btn btn-secondary mt-3">⬅️ Volver al Inicio</a>
+    </div>
+
+    <footer th:replace="~{layout/base :: footer-comun}"></footer>
+    <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+    <script th:src="@{/js/custom.js}"></script>
+
+</body>
+</html>

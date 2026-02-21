@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+<meta charset="UTF-8">
+<title th:text="${titulo}">Ver Pregunta</title>
+<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+</head>
+<body>
+
+    <header th:replace="~{layout/base :: header-comun}"></header>
+
+    <div class="container mt-5">
+        <div class="card" style="max-width: 750px; margin: auto;">
+
+            <!-- Cabecera con color según tipo -->
+            <div class="card-header text-white"
+                 th:classappend="${pregunta.tipo == 'verdadero_falso'} ? 'bg-success' :
+                                 (${pregunta.tipo == 'seleccion_unica'} ? 'bg-primary' : 'bg-info')">
+                <h4 th:text="${cabecera}">Detalle de la Pregunta</h4>
+            </div>
+
+            <div class="card-body" th:if="${pregunta != null}">
+
+                <!-- INFO GENERAL -->
+                <ul class="list-group list-group-flush mb-4">
+                    <li class="list-group-item">
+                        <strong>ID:</strong> <span th:text="${pregunta.id}"></span>
+                    </li>
+                    <li class="list-group-item">
+                        <strong>Pregunta:</strong> <span th:text="${pregunta.textoPregunta}"></span>
+                    </li>
+                    <li class="list-group-item">
+                        <strong>Categoría:</strong>
+                        <span th:text="${pregunta.categoria != null ? pregunta.categoria.nombre : 'Sin Categoría'}"></span>
+                    </li>
+                    <li class="list-group-item">
+                        <strong>Tipo:</strong>
+                        <span th:if="${pregunta.tipo == 'verdadero_falso'}"    class="badge bg-success fs-6">✅ Verdadero/Falso</span>
+                        <span th:if="${pregunta.tipo == 'seleccion_unica'}"    class="badge bg-primary fs-6">🔘 Selección Única</span>
+                        <span th:if="${pregunta.tipo == 'seleccion_multiple'}" class="badge bg-info fs-6">☑️ Selección Múltiple</span>
+                    </li>
+                </ul>
+
+                <!-- ======================================== -->
+                <!-- VISTA ADMIN: muestra las respuestas      -->
+                <!-- ======================================== -->
+                <div sec:authorize="hasRole('ADMIN')">
+
+                    <!-- V/F con respuesta -->
+                    <div th:if="${pregunta.tipo == 'verdadero_falso'}" class="mb-4">
+                        <h5>🎯 Respuesta Correcta:</h5>
+                        <div class="p-3 border rounded">
+                            <span th:if="${pregunta.respuestaCorrecta}"  class="badge bg-success fs-5">✅ VERDADERO</span>
+                            <span th:unless="${pregunta.respuestaCorrecta}" class="badge bg-danger fs-5">❌ FALSO</span>
+                        </div>
+                    </div>
+
+                    <!-- Selección Única con respuesta marcada -->
+                    <div th:if="${pregunta.tipo == 'seleccion_unica'}" class="mb-4">
+                        <h5>🎯 Opciones de Respuesta: <small class="text-muted fs-6">(verde = correcta)</small></h5>
+                        <div th:if="${pregunta.opciones == null || pregunta.opciones.empty}" class="alert alert-warning">
+                            ⚠️ Esta pregunta no tiene opciones definidas aún.
+                        </div>
+                        <ul class="list-group" th:if="${pregunta.opciones != null && !pregunta.opciones.empty}">
+                            <li th:each="opcion : ${pregunta.opciones}"
+                                class="list-group-item d-flex justify-content-between align-items-center"
+                                th:classappend="${opcion.esCorrecta} ? 'list-group-item-success' : ''">
+                                <span>
+                                    <strong th:if="${opcion.esCorrecta}">✅ </strong>
+                                    <span th:text="${opcion.textoOpcion}"></span>
+                                </span>
+                                <span th:if="${opcion.esCorrecta}"    class="badge bg-success">Correcta</span>
+                                <span th:unless="${opcion.esCorrecta}" class="badge bg-secondary">Incorrecta</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Selección Múltiple con respuestas marcadas -->
+                    <div th:if="${pregunta.tipo == 'seleccion_multiple'}" class="mb-4">
+                        <h5>🎯 Opciones de Respuesta: <small class="text-muted fs-6">(verde = correctas)</small></h5>
+                        <div th:if="${pregunta.opciones == null || pregunta.opciones.empty}" class="alert alert-warning">
+                            ⚠️ Esta pregunta no tiene opciones definidas aún.
+                        </div>
+                        <ul class="list-group" th:if="${pregunta.opciones != null && !pregunta.opciones.empty}">
+                            <li th:each="opcion : ${pregunta.opciones}"
+                                class="list-group-item d-flex justify-content-between align-items-center"
+                                th:classappend="${opcion.esCorrecta} ? 'list-group-item-success' : ''">
+                                <span>
+                                    <strong th:if="${opcion.esCorrecta}">✅ </strong>
+                                    <span th:text="${opcion.textoOpcion}"></span>
+                                </span>
+                                <span th:if="${opcion.esCorrecta}"    class="badge bg-success">Correcta</span>
+                                <span th:unless="${opcion.esCorrecta}" class="badge bg-secondary">Incorrecta</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                </div>
+
+                <!-- ======================================== -->
+                <!-- VISTA USER: NO muestra respuestas        -->
+                <!-- ======================================== -->
+                <div sec:authorize="hasRole('USER')">
+
+                    <!-- V/F: solo muestra las opciones sin marcar cuál es correcta -->
+                    <div th:if="${pregunta.tipo == 'verdadero_falso'}" class="mb-4">
+                        <h5>📝 ¿Verdadero o Falso?</h5>
+                        <div class="d-flex gap-3 mt-2">
+                            <div class="card text-center p-3 flex-fill" style="cursor:pointer;"
+                                 onclick="this.classList.toggle('border-success')">
+                                <span class="fs-4">✅</span>
+                                <strong>Verdadero</strong>
+                            </div>
+                            <div class="card text-center p-3 flex-fill" style="cursor:pointer;"
+                                 onclick="this.classList.toggle('border-danger')">
+                                <span class="fs-4">❌</span>
+                                <strong>Falso</strong>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Selección Única: opciones sin marcar la correcta -->
+                    <div th:if="${pregunta.tipo == 'seleccion_unica'}" class="mb-4">
+                        <h5>📝 Selecciona la respuesta correcta:</h5>
+                        <div th:if="${pregunta.opciones == null || pregunta.opciones.empty}" class="alert alert-warning">
+                            ⚠️ Esta pregunta no tiene opciones definidas aún.
+                        </div>
+                        <div class="list-group mt-2" th:if="${pregunta.opciones != null && !pregunta.opciones.empty}">
+                            <button type="button"
+                                    th:each="opcion : ${pregunta.opciones}"
+                                    class="list-group-item list-group-item-action"
+                                    th:text="${opcion.textoOpcion}"
+                                    onclick="this.classList.toggle('active')">
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Selección Múltiple: opciones sin marcar las correctas -->
+                    <div th:if="${pregunta.tipo == 'seleccion_multiple'}" class="mb-4">
+                        <h5>📝 Selecciona todas las respuestas correctas:</h5>
+                        <div th:if="${pregunta.opciones == null || pregunta.opciones.empty}" class="alert alert-warning">
+                            ⚠️ Esta pregunta no tiene opciones definidas aún.
+                        </div>
+                        <div class="list-group mt-2" th:if="${pregunta.opciones != null && !pregunta.opciones.empty}">
+                            <button type="button"
+                                    th:each="opcion : ${pregunta.opciones}"
+                                    class="list-group-item list-group-item-action"
+                                    th:text="${opcion.textoOpcion}"
+                                    onclick="this.classList.toggle('active')">
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- BOTONES según rol -->
+                <div class="mt-4 d-flex gap-2">
+                    <a th:href="@{/preguntas/todas}" class="btn btn-secondary">⬅️ Volver al listado</a>
+                    <a th:href="@{'/preguntas/editar/' + ${pregunta.id}}"
+                       class="btn btn-warning" sec:authorize="hasRole('ADMIN')">✏️ Editar</a>
+                    <a th:href="@{'/preguntas/borrar/' + ${pregunta.id}}"
+                       class="btn btn-danger" sec:authorize="hasRole('ADMIN')"
+                       onclick="return confirm('¿Estás seguro de borrar esta pregunta?');">🗑️ Borrar</a>
+                </div>
+
+            </div>
+
+            <!-- Pregunta no encontrada -->
+            <div class="card-body" th:if="${pregunta == null}">
+                <div class="alert alert-danger">❌ La pregunta solicitada no existe.</div>
+                <a th:href="@{/preguntas/todas}" class="btn btn-secondary">⬅️ Volver al listado</a>
+            </div>
+
+        </div>
+    </div>
+
+    <footer th:replace="~{layout/base :: footer-comun}"></footer>
+    <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+    <script th:src="@{/js/custom.js}"></script>
+
+</body>
+</html>

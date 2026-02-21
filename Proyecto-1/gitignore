@@ -1,0 +1,58 @@
+# ============================================
+# GITIGNORE - SPRING BOOT
+# ============================================
+
+# Maven
+target/
+!.mvn/wrapper/maven-wrapper.jar
+!**/src/main/**/target/
+!**/src/test/**/target/
+.mvn/
+
+# Eclipse
+.classpath
+.project
+.settings/
+.factorypath
+bin/
+
+# IntelliJ IDEA
+.idea/
+*.iws
+*.iml
+*.ipr
+out/
+
+# VS Code
+.vscode/
+
+# NetBeans
+nbproject/private/
+build/
+nbbuild/
+dist/
+nbdist/
+.nb-gradle/
+
+# Spring Boot
+*.log
+*.gz
+*.tmp
+*.bak
+*.swp
+*~.nib
+
+# Sistema operativo
+.DS_Store
+Thumbs.db
+
+# Archivos de configuración sensibles
+application-local.properties
+application-production.properties
+
+# NO ignorar estos archivos importantes
+!docker-compose.yml
+!Dockerfile
+!.dockerignore
+!init-mysql.sql
+!README-DOCKER.md

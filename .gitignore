@@ -1,0 +1,23 @@
+# --- GENERAL ---
+.DS_Store
+.vscode/
+.idea/
+
+# --- BACKEND (Spring Boot) ---
+# Ignora la carpeta donde se guarda el código compilado
+Proyecto-1/target/
+Proyecto-1/.settings/
+Proyecto-1/.classpath
+Proyecto-1/.project
+Proyecto-1/.factorypath
+# Ignora el ejecutable de Maven si quieres peso mínimo
+Proyecto-1/.mvn/wrapper/maven-wrapper.jar
+
+# --- FRONTEND (React) ---
+# ESTO ES LO MÁS IMPORTANTE: Ignora las librerías pesadas
+Quiz-React/node_modules/
+Quiz-React/dist/
+Quiz-React/dist-ssr/
+# Ignora archivos de registro de errores
+Quiz-React/*.log
+Quiz-React/npm-debug.log*

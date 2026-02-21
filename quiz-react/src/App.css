@@ -1,0 +1,55 @@
+/* src/App.css */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Segoe UI', sans-serif; background: #f5f7fa; }
+
+/* CABECERA */
+.app-header {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 24px;
+  text-align: center;
+}
+.app-header h1 { font-size: 2rem; margin-bottom: 4px; }
+.app-header p { color: rgba(255,255,255,0.9); font-size: 0.95rem; }
+
+/* NAVEGACIÓN */
+.app-nav {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  padding: 16px;
+  background: white;
+  border-bottom: 2px solid #e0e0e0;
+}
+.nav-btn {
+  padding: 12px 24px;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  background: white;
+  cursor: pointer;
+  font-size: 0.95rem;
+  font-weight: 600;
+  transition: all 0.2s;
+}
+.nav-btn:hover { border-color: #667eea; }
+.nav-btn.activa {
+  background: #667eea;
+  color: white;
+  border-color: #667eea;
+}
+
+/* MAIN */
+.app-main {
+  max-width: 1200px;
+  margin: 24px auto;
+  padding: 0 16px;
+}
+
+/* FOOTER */
+.app-footer {
+  text-align: center;
+  padding: 20px;
+  color: #888;
+  font-size: 0.85rem;
+  margin-top: 40px;
+}
