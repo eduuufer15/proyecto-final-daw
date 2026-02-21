@@ -1,7 +1,3 @@
-# Proyecto Integrado: Sistema de Gestión de Tests
-
-Este repositorio contiene la entrega final del proyecto, compuesto por una API robusta y una interfaz de usuario moderna. La arquitectura está diseñada para ejecutarse de forma sencilla mediante contenedores y herramientas de automatización.
-
 ## Estructura del Repositorio
 * **`Proyecto-1/`**: Backend desarrollado con **Spring Boot**, Maven y JPA. Incluye configuración de Docker para las bases de datos.
 * **`Quiz-React/`**: Frontend desarrollado con **React**, Vite y TypeScript.
