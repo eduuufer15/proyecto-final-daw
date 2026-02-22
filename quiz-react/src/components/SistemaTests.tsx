@@ -1,8 +1,8 @@
-// src/components/SistemaTests.tsx
 import React, { useState, useEffect } from 'react';
 import '../styles/SistemaTests.css';
 
 // ── INTERFACES ──────────────────────────────────────
+
 interface Opcion {
   id: number;
   textoOpcion: string;

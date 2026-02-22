@@ -1,7 +1,5 @@
-/* src/styles/GestionUsuarios.css */
 .gestion-usuarios h2 { margin-bottom: 20px; color: #333; }
 
-/* MENSAJES */
 .mensaje {
   padding: 12px 20px;
   border-radius: 8px;
@@ -11,7 +9,6 @@
 .mensaje.success { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
 .mensaje.error { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
 
-/* ACCIONES */
 .acciones { display: flex; gap: 12px; margin-bottom: 20px; flex-wrap: wrap; }
 .input-buscar {
   flex: 1;
@@ -23,7 +20,6 @@
 }
 .input-buscar:focus { outline: none; border-color: #667eea; }
 
-/* BOTONES */
 .btn {
   padding: 10px 18px;
   border: none;
@@ -41,7 +37,6 @@
 .btn-danger { background: #dc3545; color: white; }
 .btn-sm { padding: 6px 12px; font-size: 0.82rem; }
 
-/* RESUMEN */
 .resumen {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -58,7 +53,6 @@
 .resumen-num { display: block; font-size: 2rem; font-weight: 700; color: #667eea; }
 .resumen-label { font-size: 0.85rem; color: #888; margin-top: 4px; }
 
-/* TABLA */
 .tabla {
   width: 100%;
   background: white;
@@ -73,7 +67,6 @@
 .tabla tbody tr:hover { background: #f8f9ff; }
 .sin-datos { text-align: center; color: #999; padding: 32px !important; }
 
-/* BADGES */
 .badge {
   display: inline-block;
   padding: 4px 10px;
@@ -88,7 +81,6 @@
 
 .acciones-tabla { display: flex; gap: 8px; }
 
-/* MODAL */
 .modal-overlay {
   position: fixed;
   inset: 0;
@@ -108,7 +100,6 @@
 }
 .modal-box h3 { margin-bottom: 24px; font-size: 1.3rem; }
 
-/* FORMULARIO */
 .form-group { margin-bottom: 16px; }
 .form-group label { display: block; font-size: 0.85rem; color: #555; margin-bottom: 6px; font-weight: 600; }
 .form-group input, .form-group select {

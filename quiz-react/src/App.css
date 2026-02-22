@@ -1,8 +1,6 @@
-/* src/App.css */
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body { font-family: 'Segoe UI', sans-serif; background: #f5f7fa; }
 
-/* CABECERA */
 .app-header {
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   color: white;
@@ -12,7 +10,6 @@ body { font-family: 'Segoe UI', sans-serif; background: #f5f7fa; }
 .app-header h1 { font-size: 2rem; margin-bottom: 4px; }
 .app-header p { color: rgba(255,255,255,0.9); font-size: 0.95rem; }
 
-/* NAVEGACIÓN */
 .app-nav {
   display: flex;
   justify-content: center;
@@ -38,14 +35,12 @@ body { font-family: 'Segoe UI', sans-serif; background: #f5f7fa; }
   border-color: #667eea;
 }
 
-/* MAIN */
 .app-main {
   max-width: 1200px;
   margin: 24px auto;
   padding: 0 16px;
 }
 
-/* FOOTER */
 .app-footer {
   text-align: center;
   padding: 20px;

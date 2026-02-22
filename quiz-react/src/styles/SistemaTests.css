@@ -1,7 +1,5 @@
-/* src/styles/SistemaTests.css */
 .sistema-tests { max-width: 800px; margin: 0 auto; }
 
-/* PANTALLA INICIO */
 .test-inicio {
   background: white;
   border-radius: 16px;
@@ -19,7 +17,6 @@
 .test-info p { margin: 12px 0; font-size: 1.05rem; }
 .btn-lg { padding: 16px 32px; font-size: 1.1rem; }
 
-/* HEADER TEST */
 .test-header {
   background: white;
   border-radius: 12px;
@@ -30,7 +27,6 @@
 .test-header h2 { margin-bottom: 8px; }
 .test-header p { color: #888; }
 
-/* PREGUNTAS */
 .preguntas-lista { display: flex; flex-direction: column; gap: 20px; }
 .pregunta-card {
   background: white;
@@ -52,7 +48,6 @@
 }
 .pregunta-card h3 { margin-bottom: 16px; color: #333; line-height: 1.5; }
 
-/* OPCIONES V/F */
 .opciones-vf {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -75,7 +70,6 @@
   border-color: #667eea;
 }
 
-/* OPCIONES LISTA */
 .opciones-lista { display: flex; flex-direction: column; gap: 10px; }
 .opcion-radio, .opcion-check {
   display: flex;
@@ -91,7 +85,6 @@
 .opcion-radio input, .opcion-check input { cursor: pointer; width: 18px; height: 18px; }
 .opcion-radio span, .opcion-check span { flex: 1; }
 
-/* FOOTER TEST */
 .test-footer {
   background: white;
   border-radius: 12px;
@@ -104,7 +97,6 @@
 }
 .test-footer p { color: #888; font-weight: 500; }
 
-/* RESULTADO */
 .test-resultado {
   background: white;
   border-radius: 16px;

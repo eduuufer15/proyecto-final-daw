@@ -1,4 +1,3 @@
-// src/App.tsx
 import { useState } from 'react';
 import GestionUsuarios from './components/GestionUsuarios';
 import SistemaTests from './components/SistemaTests';
