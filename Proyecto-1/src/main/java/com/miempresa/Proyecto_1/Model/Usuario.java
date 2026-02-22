@@ -12,13 +12,12 @@ public class Usuario {
     private String email;
     private boolean enabled;
 
-    @Enumerated(EnumType.STRING) // Indica a JPA que guarde "ADMIN" o "USER" en la columna
+    @Enumerated(EnumType.STRING) 
     private Rol rol;
 
-    // El Enum vive dentro de la clase para reducir archivos
     public enum Rol { ADMIN, USER }
 
-    // --- Getters y Setters ---
+    
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
     public String getUsername() { return username; }

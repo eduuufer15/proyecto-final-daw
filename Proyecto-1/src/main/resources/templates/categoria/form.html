@@ -17,14 +17,17 @@
             <div class="card-body">
 
                 <!-- Mensajes -->
+                
                 <div class="alert alert-danger" th:if="${error}" th:text="${error}"></div>
 
                 <form th:action="@{/categorias/guardar}" method="post">
 
                     <!-- ID oculto para edición -->
+                    
                     <input type="hidden" name="id" th:value="${categoria.id}">
 
                     <!-- Nombre -->
+                    
                     <div class="mb-3">
                         <label class="form-label"><strong>Nombre de la Categoría</strong></label>
                         <input type="text"
@@ -38,6 +41,7 @@
                     </div>
 
                     <!-- Botones -->
+                    
                     <div class="d-flex gap-2">
                         <button type="submit" class="btn btn-success">
                             💾 Guardar

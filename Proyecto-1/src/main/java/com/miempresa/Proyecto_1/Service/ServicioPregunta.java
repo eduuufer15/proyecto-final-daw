@@ -32,7 +32,8 @@ public class ServicioPregunta {
         repositorioPregunta.deleteById(id);
     }
 
-    // ── PAGINACIÓN ────────────────────────────────────
+    // ── PAGINACIÓN ─────────────
+    
     public Page<Pregunta> damePreguntasPaginadas(Pageable pageable) {
         return repositorioPregunta.findAll(pageable);
     }

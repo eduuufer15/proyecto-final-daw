@@ -8,9 +8,8 @@ import java.util.List;
 @Repository
 public interface RepositorioResultado extends JpaRepository<ResultadoTest, Long> {
     
-    // Buscar por usuario
+    
     List<ResultadoTest> findByUsuarioNombre(String usuarioNombre);
     
-    // Obtener todos ordenados por fecha descendente (más recientes primero)
     List<ResultadoTest> findAllByOrderByFechaDesc();
 }

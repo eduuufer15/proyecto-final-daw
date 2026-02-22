@@ -10,22 +10,20 @@ public class ResultadoTest {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String usuarioNombre;  // Nombre del usuario que hizo el test
+    private String usuarioNombre; 
     private Integer totalPreguntas;
     private Integer correctas;
     private Integer incorrectas;
-    private Double nota;           // Nota sobre 10
-    private Double porcentaje;     // % de acierto
+    private Double nota;           
+    private Double porcentaje;     
 
     @Temporal(TemporalType.TIMESTAMP)
     private Date fecha;
 
-    // Constructor vacío
     public ResultadoTest() {
         this.fecha = new Date();
     }
 
-    // Constructor completo
     public ResultadoTest(String usuarioNombre, Integer totalPreguntas, Integer correctas, 
                          Integer incorrectas, Double nota, Double porcentaje) {
         this.usuarioNombre = usuarioNombre;
@@ -37,7 +35,6 @@ public class ResultadoTest {
         this.fecha = new Date();
     }
 
-    // Getters y Setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 

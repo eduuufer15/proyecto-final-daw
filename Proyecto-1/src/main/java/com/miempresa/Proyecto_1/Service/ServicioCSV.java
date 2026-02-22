@@ -21,22 +21,6 @@ public class ServicioCSV {
 
     @Autowired
     private ServicioPregunta servicioPregunta;
-
-    /**
-     * Procesa un archivo CSV y guarda las preguntas en la base de datos.
-     *
-     * FORMATO DEL CSV:
-     * tipo,texto_pregunta,respuesta_correcta
-     *
-     * EJEMPLOS:
-     * verdadero_falso,¿Java es orientado a objetos?,true
-     * verdadero_falso,¿Python es compilado?,false
-     * seleccion_unica,¿Cuál es la capital de España?,
-     * seleccion_multiple,¿Cuáles son lenguajes de programación?,
-     *
-     * @param archivo - El archivo CSV subido
-     * @return Resultado con preguntas importadas y errores
-     */
     
     public ResultadoImportacion importarDesdeCSV(MultipartFile archivo) {
         
@@ -52,10 +36,8 @@ public class ServicioCSV {
 
             while ((fila = reader.readNext()) != null) {
                 
-                // Saltar la cabecera
                 if (primeraFila) {
                     primeraFila = false;
-                    // Si la primera fila empieza con "tipo" es la cabecera
                     if (fila[0].trim().equalsIgnoreCase("tipo")) {
                         linea++;
                         continue;
@@ -63,7 +45,6 @@ public class ServicioCSV {
                 }
 
                 try {
-                    // Validar que hay al menos 2 columnas
                     if (fila.length < 2) {
                         errores.add("Línea " + linea + ": Formato incorrecto (mínimo 2 columnas)");
                         linea++;
@@ -73,14 +54,12 @@ public class ServicioCSV {
                     String tipo = fila[0].trim().toLowerCase();
                     String textoPregunta = fila[1].trim();
 
-                    // Validar que el texto no está vacío
                     if (textoPregunta.isEmpty()) {
                         errores.add("Línea " + linea + ": El texto de la pregunta está vacío");
                         linea++;
                         continue;
                     }
 
-                    // Crear pregunta según tipo
                     Pregunta pregunta = null;
 
                     switch (tipo) {
@@ -89,7 +68,6 @@ public class ServicioCSV {
                         case "v/f":
                             PreguntaVerdaderoFalso vf = new PreguntaVerdaderoFalso();
                             vf.setTextoPregunta(textoPregunta);
-                            // Leer respuesta correcta si existe
                             if (fila.length >= 3 && !fila[2].trim().isEmpty()) {
                                 String respuesta = fila[2].trim().toLowerCase();
                                 vf.setRespuestaCorrecta(
@@ -100,7 +78,7 @@ public class ServicioCSV {
                                     respuesta.equals("1")
                                 );
                             } else {
-                                vf.setRespuestaCorrecta(false); // Por defecto falso
+                                vf.setRespuestaCorrecta(false); 
                             }
                             pregunta = vf;
                             break;
@@ -128,7 +106,6 @@ public class ServicioCSV {
                             continue;
                     }
 
-                    // Guardar la pregunta
                     servicioPregunta.guardarPregunta(pregunta);
                     resultado.incrementarImportadas();
 
@@ -148,8 +125,9 @@ public class ServicioCSV {
     }
 
     // ========================================
-    // CLASE INTERNA: Resultado de importación
+    // CLASE INTERNA: Resultado 
     // ========================================
+    
     public static class ResultadoImportacion {
         private int preguntasImportadas = 0;
         private List<String> errores = new ArrayList<>();

@@ -79,6 +79,7 @@
         </div>
 
         <!-- Mensajes de error/éxito -->
+        
         <div th:if="${error}" class="alert alert-danger" role="alert">
             <strong>❌</strong> <span th:text="${error}"></span>
         </div>
@@ -88,6 +89,7 @@
         </div>
 
         <!-- Formulario de login -->
+        
         <form th:action="@{/login}" method="post">
             <div class="mb-3">
                 <label for="username" class="form-label">Usuario</label>
@@ -112,11 +114,14 @@
         </form>
 
         <!-- Información de credenciales de prueba -->
+        
         <div class="credentials-info">
             <strong>📝 Credenciales de prueba:</strong>
             <ul class="mb-0 mt-2">
                 <li><strong>Admin:</strong> admin / admin123</li>
                 <li><strong>User:</strong> user / user123</li>
+                <li><strong>User:</strong> Eduardo / eduardo123</li>
+                <li><strong>User:</strong> Javier / javier123</li>               
             </ul>
         </div>
     </div>

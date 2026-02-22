@@ -14,18 +14,15 @@ import com.miempresa.Proyecto_1.Model.PreguntaVerdaderoFalso;
 @Repository
 public interface RepositorioPregunta extends JpaRepository<Pregunta, Long> {
 
-    // Obtener solo preguntas de Verdadero/Falso
+    
     @Query("SELECT p FROM PreguntaVerdaderoFalso p")
     List<PreguntaVerdaderoFalso> obtenerPreguntasVerdaderoFalso();
-
-    // Paginación (findAll con Pageable ya viene de JpaRepository)
+    
     Page<Pregunta> findAll(Pageable pageable);
-
-    // Búsqueda por texto con paginación
+   
     @Query("SELECT p FROM Pregunta p WHERE LOWER(p.textoPregunta) LIKE LOWER(CONCAT('%', :texto, '%'))")
     Page<Pregunta> buscarPorTexto(String texto, Pageable pageable);
-
-    // Filtrar por tipo usando el nombre de la clase
+    
     @Query("SELECT p FROM PreguntaVerdaderoFalso p")
     Page<Pregunta> buscarVerdaderoFalso(Pageable pageable);
 

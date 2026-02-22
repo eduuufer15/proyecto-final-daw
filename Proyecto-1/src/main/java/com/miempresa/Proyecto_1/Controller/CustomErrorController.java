@@ -33,7 +33,8 @@ public class CustomErrorController implements ErrorController {
         if (status != null) {
             int statusCode = Integer.parseInt(status.toString());
             
-            // Error 404 - Página no encontrada
+            // Error 404
+            
             if (statusCode == HttpStatus.NOT_FOUND.value()) {
                 model.addAttribute("errorCode", "404");
                 model.addAttribute("errorTitle", "Página No Encontrada");
@@ -42,15 +43,14 @@ public class CustomErrorController implements ErrorController {
                 return "error/error-404";
             }
                         
-            // Error 500 - Error interno del servidor
+            // Error 500
             else if (statusCode == HttpStatus.INTERNAL_SERVER_ERROR.value()) {
                 model.addAttribute("errorCode", "500");
                 model.addAttribute("errorTitle", "Error Interno del Servidor");
                 model.addAttribute("errorDescription", 
                     "Ha ocurrido un error inesperado. Nuestro equipo ha sido notificado.");
                 
-                // Agregar información de la excepción si existe
-                
+                           
                 if (exception != null) {
                     model.addAttribute("exceptionType", exception.getClass().getSimpleName());
                     model.addAttribute("exceptionMessage", exception.getMessage());
@@ -68,8 +68,6 @@ public class CustomErrorController implements ErrorController {
                 return "error/error-500";
             }
         }
-        
-        // Error genérico si no hay código de estado
         
         model.addAttribute("errorCode", "ERROR");
         model.addAttribute("errorTitle", "Error Desconocido");

@@ -25,15 +25,19 @@ public class SecurityConfig {
         http
             .authorizeHttpRequests(authorize -> authorize
                 // Recursos estáticos públicos
+            		
                 .requestMatchers("/css/**", "/js/**", "/images/**").permitAll()
 
-                // API REST pública (para React)
+                // API REST pública (React)
+                
                 .requestMatchers("/api/**").permitAll()
 
                 // Login público
+                
                 .requestMatchers("/login").permitAll()
 
                 // Rutas solo para ADMIN
+                
                 .requestMatchers(
                     "/preguntas/form",
                     "/preguntas/editar/**",
@@ -41,13 +45,14 @@ public class SecurityConfig {
                     "/preguntas/guardar",
                     "/preguntas/importar",
                     "/preguntas/csv-ejemplo",
-                    "/categorias/form",        // ← NUEVO
-                    "/categorias/editar/**",   // ← NUEVO
-                    "/categorias/borrar/**",   // ← NUEVO
-                    "/categorias/guardar"      // ← NUEVO
+                    "/categorias/form",        
+                    "/categorias/editar/**",   
+                    "/categorias/borrar/**",   
+                    "/categorias/guardar"      
                 ).hasRole("ADMIN")
 
                 // El resto requiere estar autenticado
+                
                 .anyRequest().authenticated()
             )
             .formLogin(form -> form

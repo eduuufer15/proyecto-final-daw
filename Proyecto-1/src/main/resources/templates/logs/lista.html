@@ -18,11 +18,13 @@
         </div>
 
         <!-- Sin logs -->
+        
         <div class="alert alert-info" th:if="${logs == null || logs.empty}">
             📭 No hay actividad registrada aún. Crea, edita o borra una pregunta para ver los logs.
         </div>
 
         <!-- Tabla de logs -->
+        
         <table class="table table-striped table-bordered"
                th:if="${logs != null && !logs.empty}">
             <thead class="table-dark">
@@ -39,9 +41,11 @@
                 <tr th:each="log : ${logs}">
 
                     <!-- Fecha -->
+                    
                     <td th:text="${#dates.format(log.fecha, 'dd/MM/yyyy HH:mm:ss')}"></td>
 
                     <!-- Badge acción con color -->
+                    
                     <td>
                         <span th:if="${log.accion == 'CREAR'}"        class="badge bg-success">➕ CREAR</span>
                         <span th:if="${log.accion == 'EDITAR'}"       class="badge bg-warning text-dark">✏️ EDITAR</span>
@@ -50,6 +54,7 @@
                     </td>
 
                     <!-- Tipo pregunta -->
+                    
                     <td>
                         <span th:if="${log.tipoPregunta == 'verdadero_falso'}"   class="badge bg-success">✅ V/F</span>
                         <span th:if="${log.tipoPregunta == 'seleccion_unica'}"   class="badge bg-primary">🔘 S.Única</span>
@@ -58,12 +63,15 @@
                     </td>
 
                     <!-- ID -->
+                    
                     <td th:text="${log.idPregunta != null ? log.idPregunta : '-'}"></td>
 
                     <!-- Texto pregunta (truncado) -->
+                    
                     <td th:text="${#strings.abbreviate(log.textoPregunta, 50)}"></td>
 
                     <!-- Usuario -->
+                    
                     <td>
                         <span class="badge bg-dark" th:text="${log.usuario}"></span>
                     </td>

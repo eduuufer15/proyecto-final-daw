@@ -21,7 +21,7 @@ public class ServicioLog {
         repositorioLog.save(log);
     }
 
-    // Obtener todos los logs ordenados por fecha (más reciente primero)
+    // Obtener todos los logs ordenados por fecha
     
     public List<LogActividad> obtenerTodos() {
         return repositorioLog.findAllByOrderByFechaDesc();

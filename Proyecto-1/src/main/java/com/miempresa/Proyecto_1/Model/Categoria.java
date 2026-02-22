@@ -23,7 +23,6 @@ public class Categoria {
     @JsonIgnore
     private List<Pregunta> preguntas;
 
-    // Getters y Setters manuales (Estilo Profesor)
     public Long getId() {
         return id;
     }

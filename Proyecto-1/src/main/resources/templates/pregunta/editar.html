@@ -19,11 +19,14 @@
                 <form th:action="@{/preguntas/actualizar}" method="post" id="formEditar">
 
                     <!-- ID oculto -->
+                    
                     <input type="hidden" name="id" th:value="${pregunta.id}">
-                    <!-- Tipo oculto (no cambiable) -->
+                    
+                    <!-- Tipo oculto -->
+                    
                     <input type="hidden" name="tipo" id="tipoOculto" th:value="${tipo}">
 
-                    <!-- TIPO (solo informativo, no editable) -->
+                    <!-- TIPO -->
                     <div class="mb-3">
                         <label class="form-label"><strong>Tipo de Pregunta</strong></label>
                         <div>
@@ -35,12 +38,15 @@
                     </div>
 
                     <!-- TEXTO DE LA PREGUNTA -->
+                    
                     <div class="mb-3">
                         <label class="form-label"><strong>Texto de la Pregunta</strong></label>
                         <textarea class="form-control" name="textoPregunta" rows="3"
                                   th:text="${pregunta.textoPregunta}" required></textarea>
                     </div>
+					
 					 <!-- CATEGORÍA -->
+					 
                     <div class="mb-3">
                         <label class="form-label"><strong>Categoría</strong></label>
                         <select class="form-select" name="categoriaId">
@@ -52,9 +58,11 @@
                             </option>
                         </select>
                     </div>
+                    
                     <!-- ======================== -->
                     <!-- SECCIÓN VERDADERO/FALSO  -->
                     <!-- ======================== -->
+                    
                     <div th:if="${tipo == 'verdadero_falso'}"
                          class="mb-3 p-3 border rounded bg-light">
                         <label class="form-label"><strong>Respuesta Correcta</strong></label>
@@ -75,6 +83,7 @@
                     <!-- ======================== -->
                     <!-- SECCIÓN SELECCIÓN ÚNICA  -->
                     <!-- ======================== -->
+                    
                     <div th:if="${tipo == 'seleccion_unica'}"
                          class="mb-3 p-3 border rounded bg-light">
                         <label class="form-label">
@@ -82,7 +91,6 @@
                             <small class="text-muted">(marca la opción correcta)</small>
                         </label>
 
-                        <!-- Opciones existentes -->
                         <div th:each="opcion, iter : ${pregunta.opciones}" class="input-group mb-2"
                              th:id="'opcionSU_' + ${iter.index + 1}">
                             <div class="input-group-text">
@@ -95,13 +103,16 @@
                                    name="textoOpcionSU"
                                    th:value="${opcion.textoOpcion}"
                                    required>
+                                   
                             <!-- ID de la opción existente para actualizarla -->
+                            
                             <input type="hidden" name="idOpcionSU" th:value="${opcion.id}">
                             <button type="button" class="btn btn-outline-danger"
                                     th:onclick="'eliminarOpcion(\'opcionSU_' + ${iter.index + 1} + '\')'">🗑️</button>
                         </div>
 
                         <!-- Contenedor para nuevas opciones -->
+                        
                         <div id="nuevasOpcionesSU"></div>
 
                         <button type="button" class="btn btn-outline-primary btn-sm mt-2"
@@ -113,6 +124,7 @@
                     <!-- ========================== -->
                     <!-- SECCIÓN SELECCIÓN MÚLTIPLE -->
                     <!-- ========================== -->
+                    
                     <div th:if="${tipo == 'seleccion_multiple'}"
                          class="mb-3 p-3 border rounded bg-light">
                         <label class="form-label">
@@ -121,6 +133,7 @@
                         </label>
 
                         <!-- Opciones existentes -->
+                        
                         <div th:each="opcion, iter : ${pregunta.opciones}" class="input-group mb-2"
                              th:id="'opcionSM_' + ${iter.index + 1}">
                             <div class="input-group-text">
@@ -139,6 +152,7 @@
                         </div>
 
                         <!-- Contenedor para nuevas opciones -->
+                        
                         <div id="nuevasOpcionesSM"></div>
 
                         <button type="button" class="btn btn-outline-primary btn-sm mt-2"
@@ -148,6 +162,7 @@
                     </div>
 
                     <!-- BOTONES -->
+                    
                     <div class="d-flex gap-2 mt-4">
                         <button type="submit" class="btn btn-warning btn-lg">💾 Actualizar Pregunta</button>
                         <a th:href="@{/preguntas/todas}" class="btn btn-secondary btn-lg">⬅️ Cancelar</a>
@@ -163,7 +178,8 @@
     <script th:src="@{/js/custom.js}"></script>
 
     <script>
-        let contadorSU = 100; // Empieza en 100 para no colisionar con las existentes
+    
+        let contadorSU = 100; 
         let contadorSM = 100;
 
         function agregarOpcionSU() {

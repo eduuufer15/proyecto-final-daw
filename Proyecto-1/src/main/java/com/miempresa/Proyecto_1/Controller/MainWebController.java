@@ -39,9 +39,10 @@ public class MainWebController {
     private RepositorioOpcion repositorioOpcion;
 
     @Autowired
-    private ServicioLog servicioLog;  // ← NUEVO: servicio de logs MongoDB
+    private ServicioLog servicioLog;  
 
     // Método helper para obtener el usuario actual
+    
     private String getUsuarioActual() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         return auth != null ? auth.getName() : "desconocido";
@@ -127,7 +128,7 @@ public class MainWebController {
     public String borrarPregunta(@PathVariable Long id, RedirectAttributes flash) {
         Pregunta pregunta = servicioPregunta.damePreguntaPorId(id);
 
-        // ← LOG MongoDB: registrar borrado
+        
         if (pregunta != null) {
             servicioLog.registrar("BORRAR", pregunta.getTipo(), pregunta.getId(),
                     pregunta.getTextoPregunta(), getUsuarioActual());
@@ -163,6 +164,7 @@ public class MainWebController {
             RedirectAttributes flash) {
 
         // Buscar categoría si se seleccionó una
+    	
         Categoria categoria = null;
         if (categoriaId != null) {
             categoria = repositorioCategoria.findById(categoriaId).orElse(null);
@@ -224,7 +226,7 @@ public class MainWebController {
             }
         }
 
-        // ← LOG MongoDB: registrar creación
+    
         if (preguntaGuardada != null) {
             servicioLog.registrar("CREAR", tipo, preguntaGuardada.getId(),
                     textoPregunta, getUsuarioActual());
@@ -282,7 +284,8 @@ public class MainWebController {
             return "redirect:/preguntas/todas";
         }
 
-        // Buscar categoría si se seleccionó una
+        // Busca categoría si se seleccionó una
+        
         Categoria categoria = null;
         if (categoriaId != null) {
             categoria = repositorioCategoria.findById(categoriaId).orElse(null);
@@ -386,7 +389,7 @@ public class MainWebController {
 
         ServicioCSV.ResultadoImportacion resultado = servicioCSV.importarDesdeCSV(archivo);
 
-        // ← LOG MongoDB: registrar importación CSV
+    
         servicioLog.registrar("IMPORTAR_CSV", "varios", null,
                 "Importadas: " + resultado.getPreguntasImportadas() + " preguntas",
                 getUsuarioActual());

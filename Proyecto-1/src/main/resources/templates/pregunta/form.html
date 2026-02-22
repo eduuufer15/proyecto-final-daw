@@ -105,6 +105,7 @@
                     </div>
 
                     <!-- BOTONES -->
+                    
                     <div class="d-flex gap-2 mt-4">
                         <button type="submit" class="btn btn-success btn-lg">💾 Guardar Pregunta</button>
                         <a th:href="@{/preguntas/todas}" class="btn btn-secondary btn-lg">⬅️ Cancelar</a>
@@ -121,11 +122,14 @@
     <script th:src="@{/js/custom.js}"></script>
 
     <script>
+    
         // Contadores para IDs únicos
+        
         let contadorSU = 0;
         let contadorSM = 0;
 
         // Muestra la sección correcta según el tipo elegido
+        
         function mostrarSeccion() {
             const tipo = document.getElementById('tipo').value;
 
@@ -137,14 +141,18 @@
                 document.getElementById('seccionVF').style.display = 'block';
             } else if (tipo === 'seleccion_unica') {
                 document.getElementById('seccionSU').style.display = 'block';
+               
                 // Añadir 2 opciones por defecto si está vacío
+                
                 if (contadorSU === 0) {
                     agregarOpcionSU();
                     agregarOpcionSU();
                 }
             } else if (tipo === 'seleccion_multiple') {
                 document.getElementById('seccionSM').style.display = 'block';
+              
                 // Añadir 2 opciones por defecto si está vacío
+                
                 if (contadorSM === 0) {
                     agregarOpcionSM();
                     agregarOpcionSM();
@@ -152,7 +160,8 @@
             }
         }
 
-        // Añadir opción para Selección Única (radio button)
+        // Añadir opción para Selección Única
+        
         function agregarOpcionSU() {
             contadorSU++;
             const contenedor = document.getElementById('opcionesSU');
@@ -173,7 +182,8 @@
             contenedor.appendChild(div);
         }
 
-        // Añadir opción para Selección Múltiple (checkbox)
+        // Añadir opción para Selección Múltiple
+        
         function agregarOpcionSM() {
             contadorSM++;
             const contenedor = document.getElementById('opcionesSM');
@@ -195,6 +205,7 @@
         }
 
         // Eliminar una opción
+        
         function eliminarOpcion(id) {
             const elem = document.getElementById(id);
             if (elem) elem.remove();

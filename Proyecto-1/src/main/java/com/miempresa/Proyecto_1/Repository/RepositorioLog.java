@@ -9,15 +9,15 @@ import java.util.List;
 @Repository
 public interface RepositorioLog extends MongoRepository<LogActividad, String> {
 
-    // Buscar logs por usuario
+    // Busca los logs por usuario
     List<LogActividad> findByUsuario(String usuario);
 
-    // Buscar logs por acción (CREAR, EDITAR, BORRAR...)
+    // Busca los logs por acción (CREAR, EDITAR, BORRAR... etc)
     List<LogActividad> findByAccion(String accion);
 
-    // Buscar logs por tipo de pregunta
+    // Busca los logs por tipo de pregunta
     List<LogActividad> findByTipoPregunta(String tipoPregunta);
 
-    // Los más recientes primero
+    
     List<LogActividad> findAllByOrderByFechaDesc();
 }

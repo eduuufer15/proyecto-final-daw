@@ -14,6 +14,7 @@
         <div class="card" style="max-width: 750px; margin: auto;">
 
             <!-- Cabecera con color según tipo -->
+            
             <div class="card-header text-white"
                  th:classappend="${pregunta.tipo == 'verdadero_falso'} ? 'bg-success' :
                                  (${pregunta.tipo == 'seleccion_unica'} ? 'bg-primary' : 'bg-info')">
@@ -23,6 +24,7 @@
             <div class="card-body" th:if="${pregunta != null}">
 
                 <!-- INFO GENERAL -->
+                
                 <ul class="list-group list-group-flush mb-4">
                     <li class="list-group-item">
                         <strong>ID:</strong> <span th:text="${pregunta.id}"></span>
@@ -48,6 +50,7 @@
                 <div sec:authorize="hasRole('ADMIN')">
 
                     <!-- V/F con respuesta -->
+                    
                     <div th:if="${pregunta.tipo == 'verdadero_falso'}" class="mb-4">
                         <h5>🎯 Respuesta Correcta:</h5>
                         <div class="p-3 border rounded">
@@ -57,6 +60,7 @@
                     </div>
 
                     <!-- Selección Única con respuesta marcada -->
+                    
                     <div th:if="${pregunta.tipo == 'seleccion_unica'}" class="mb-4">
                         <h5>🎯 Opciones de Respuesta: <small class="text-muted fs-6">(verde = correcta)</small></h5>
                         <div th:if="${pregunta.opciones == null || pregunta.opciones.empty}" class="alert alert-warning">
@@ -77,6 +81,7 @@
                     </div>
 
                     <!-- Selección Múltiple con respuestas marcadas -->
+                    
                     <div th:if="${pregunta.tipo == 'seleccion_multiple'}" class="mb-4">
                         <h5>🎯 Opciones de Respuesta: <small class="text-muted fs-6">(verde = correctas)</small></h5>
                         <div th:if="${pregunta.opciones == null || pregunta.opciones.empty}" class="alert alert-warning">
@@ -104,6 +109,7 @@
                 <div sec:authorize="hasRole('USER')">
 
                     <!-- V/F: solo muestra las opciones sin marcar cuál es correcta -->
+                    
                     <div th:if="${pregunta.tipo == 'verdadero_falso'}" class="mb-4">
                         <h5>📝 ¿Verdadero o Falso?</h5>
                         <div class="d-flex gap-3 mt-2">
@@ -121,6 +127,7 @@
                     </div>
 
                     <!-- Selección Única: opciones sin marcar la correcta -->
+                    
                     <div th:if="${pregunta.tipo == 'seleccion_unica'}" class="mb-4">
                         <h5>📝 Selecciona la respuesta correcta:</h5>
                         <div th:if="${pregunta.opciones == null || pregunta.opciones.empty}" class="alert alert-warning">
@@ -137,6 +144,7 @@
                     </div>
 
                     <!-- Selección Múltiple: opciones sin marcar las correctas -->
+                    
                     <div th:if="${pregunta.tipo == 'seleccion_multiple'}" class="mb-4">
                         <h5>📝 Selecciona todas las respuestas correctas:</h5>
                         <div th:if="${pregunta.opciones == null || pregunta.opciones.empty}" class="alert alert-warning">
@@ -155,6 +163,7 @@
                 </div>
 
                 <!-- BOTONES según rol -->
+                
                 <div class="mt-4 d-flex gap-2">
                     <a th:href="@{/preguntas/todas}" class="btn btn-secondary">⬅️ Volver al listado</a>
                     <a th:href="@{'/preguntas/editar/' + ${pregunta.id}}"
@@ -167,6 +176,7 @@
             </div>
 
             <!-- Pregunta no encontrada -->
+            
             <div class="card-body" th:if="${pregunta == null}">
                 <div class="alert alert-danger">❌ La pregunta solicitada no existe.</div>
                 <a th:href="@{/preguntas/todas}" class="btn btn-secondary">⬅️ Volver al listado</a>

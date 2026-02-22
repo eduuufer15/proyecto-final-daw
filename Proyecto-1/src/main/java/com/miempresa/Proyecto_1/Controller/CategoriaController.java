@@ -17,6 +17,7 @@ public class CategoriaController {
     private RepositorioCategoria repositorioCategoria;
 
     // ── LISTAR TODAS ─────────────────────────────────
+    
     @GetMapping("/todas")
     public String listarCategorias(Model model) {
         model.addAttribute("titulo", "Categorías");

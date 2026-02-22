@@ -17,11 +17,13 @@
             <div class="card-body">
 
                 <!-- Mensajes flash -->
+                
                 <div th:if="${success}" class="alert alert-success" th:text="${success}"></div>
                 <div th:if="${warning}" class="alert alert-warning" th:text="${warning}"></div>
                 <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
 
                 <!-- Formulario de subida -->
+                
                 <form action="/preguntas/importar" method="post" enctype="multipart/form-data">
                     <div class="mb-4">
                         <label for="archivo" class="form-label">
@@ -49,6 +51,7 @@
                 <hr class="my-4">
 
                 <!-- Instrucciones del formato -->
+                
                 <div class="card bg-light">
                     <div class="card-body">
                         <h5>📋 Formato del archivo CSV</h5>

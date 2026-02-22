@@ -153,7 +153,7 @@ public class RestApiController {
     }
 
     // ========================================
-    // API EXTERNA (Funcionalidad adicional)
+    // API EXTERNA
     // ========================================
     
     @Operation(
@@ -182,7 +182,7 @@ public class RestApiController {
     }
 
     // ========================================
-    // ENDPOINTS DE USUARIOS (para React)
+    // ENDPOINTS DE USUARIOS (para el React)
     // ========================================
 
     @GetMapping("/usuarios")
@@ -258,7 +258,7 @@ public class RestApiController {
     }
 
     // ========================================
-    // RESULTADOS DE TESTS (desde React Native)
+    // RESULTADOS DE TESTS (desde el React Native)
     // ========================================
 
     @Autowired
