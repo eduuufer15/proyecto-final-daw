@@ -12,7 +12,7 @@ Para ejecutar este proyecto, asegúrate de tener instalado:
 
 ---
 
-## Guía de Inicio (Copiar y Pegar)
+## Guía de Inicio
 
 Sigue estrictamente este orden para asegurar que la conexión entre servicios sea exitosa.
 
